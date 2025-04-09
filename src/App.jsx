@@ -1,21 +1,22 @@
-import styled from "styled-components";
 import GlobalStyle from "./styles/GlobalStyles";
-
-const H1 = styled.h1`
-  font-size: 31px;
-  font-weight: 400;
-  text-transform: capitalize;
-  letter-spacing: 5px;
-  text-align: center;
-  color: var(--color-brand-500);
-`;
+import Button from "./ui/Button";
+import Input from "./ui/Input";
+import Heading from "./ui/Heading";
+import Row from "./ui/Row";
 
 function App() {
   return (
     <>
       <GlobalStyle />
+
       <div>
-        <H1>the Wild Oasis</H1>
+        <Row type="horizontal">
+          <Heading as="h1">the Wild Oasis</Heading>
+          <Button sizes="large" variations="danger">
+            Hey there{" "}
+          </Button>
+          <Input type="number" placeholder="number of guests "></Input>
+        </Row>
       </div>
     </>
   );
