@@ -9,7 +9,7 @@ const Heading = styled.h1`
       text-transform: capitalize;
       letter-spacing: 5px;
       text-align: center;
-      color: var(--color-brand-500);
+      color: var(--color-brand-900);
     `}
   ${(props) =>
     props.as === "h2" &&
