@@ -46,23 +46,8 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function CreateCabinForm({ cabinToEdit = {} }) {
-  //
-
-  const { id: idToEdit, ...editValues } = cabinToEdit;
-
-  // creating a bool that determines the functionality of the form
-
-  // if thi var is True than the form is for editing alrady existing cabins
-  // else its for creating a cabin
-  const isEditSession = Boolean(idToEdit);
-
-  //
-  // creating default value based on isEditSession
-
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+function CreateCabinForm() {
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
 
   const { errors } = formState;
 
@@ -72,7 +57,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
   // using use Mutation to invalidate query to get updates in UI
 
-  const { isLoading, mutate: createCabin } = useMutation({
+  const { isLoading, mutate } = useMutation({
     mutationFn: (data) => addCabin(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -84,35 +69,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     onError: (err) => toast.err(err.message),
   });
 
-  //
-  const { isLoading: isEditing, mutate: editCabin } = useMutation({
-    mutationFn: ({ newCabinData, id }) => addCabin(newCabinData, id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["cabin"],
-      });
-      toast.success("cabin successfully edited");
-      reset();
-    },
-    onError: (err) => toast.err(err.message),
-  });
-
-  //--------------
-
   function onSubmit(data) {
-    const image = typeof data.image === "string" ? data.image : data.image[0];
-
-    if (isEditSession) {
-      editCabin({
-        newCabinData: {
-          ...data,
-          image,
-        },
-        id: idToEdit,
-      });
-    } else {
-      createCabin({ ...data, image: data.image[0] });
-    }
+    mutate({ ...data, image: data.image[0] });
   }
 
   function onError(erros) {
@@ -214,7 +172,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
           id="image"
           accept="image/*"
           {...register("image", {
-            required: isEditSession ? false : "This field is requierd",
+            required: "This field is requierd",
           })}
         />
       </FormRow>
@@ -224,10 +182,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isLoading}>
-          {" "}
-          {isEditSession ? "Edit cabin" : " Add cabin"}
-        </Button>
+        <Button disabled={isLoading}>Add cabin</Button>
       </FormRow>
     </Form>
   );

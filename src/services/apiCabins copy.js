@@ -22,8 +22,6 @@ export async function deleteCabin(id) {
 }
 
 export async function addCabin(newCabin, id) {
-  console.log(newCabin, id);
-  const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
   // upload image and specify image url in the table
   // therefore we need to generate that path and use uniqe image name
 
@@ -32,34 +30,16 @@ export async function addCabin(newCabin, id) {
     ""
   );
 
-  const imagePath = hasImagePath
-    ? newCabin.image
-    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
-
-  //
+  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   // ------------------------------------
 
-  let query = supabase.from("cabins");
-
   // create cabin (IF NO ID)
-  if (!id) query = query.insert([{ ...newCabin, image: imagePath }]);
 
-  // edit cabin if ther is ID
-
-  if (id) query = query.update({ ...newCabin, image: imagePath }).eq("id", id); //
-
-  /*  
-
-
-
-  .update({ other_column: 'otherValue' })
-  .eq('some_column', 'someValue')
-  .select()
-
-*/
-
-  const { data, error } = await query.select();
+  const { data, error } = await supabase
+    .from("cabins")
+    .insert([{ ...newCabin, image: imagePath }])
+    .select();
 
   if (error) {
     console.error(error);
