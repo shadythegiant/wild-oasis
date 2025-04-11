@@ -81,7 +81,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       toast.success("cabin successfully added");
       reset();
     },
-    onError: (err) => toast.err(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   //
@@ -94,7 +94,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       toast.success("cabin successfully edited");
       reset();
     },
-    onError: (err) => toast.err(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   //--------------

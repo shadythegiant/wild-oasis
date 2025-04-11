@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
+
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
+import { useDeleteCabin } from "./useDeleteCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -53,20 +52,22 @@ const BtnContainer = styled.div`
 export default function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false);
 
-  const clientQuery = useQueryClient();
-  //
+  // const clientQuery = useQueryClient();
+  // //
 
-  const { isLoading, mutate } = useMutation({
-    mutationFn: (id) => deleteCabin(id),
-    onSuccess: () => {
-      clientQuery.invalidateQueries({
-        queryKey: ["cabin"],
-      });
-      toast.success("cabin successfully deleted");
-    },
+  // const { isLoading, mutate } = useMutation({
+  //   mutationFn: (id) => deleteCabin(id),
+  //   onSuccess: () => {
+  //     clientQuery.invalidateQueries({
+  //       queryKey: ["cabin"],
+  //     });
+  //     toast.success("cabin successfully deleted");
+  //   },
 
-    onError: (err) => toast.err(err.message),
-  });
+  //   onError: (err) => toast.err(err.message),
+  // });
+
+  const { isLoading, mutate } = useDeleteCabin();
 
   //
   const { image, regularPrice, maxCapacity, name, discount, id } = cabin;
@@ -77,10 +78,16 @@ export default function CabinRow({ cabin }) {
         <Cabin> {name}</Cabin>
         <div>fits up to {maxCapacity}</div>
         <Price>{formatCurrency(regularPrice)}</Price>
-        <Discount>{formatCurrency(discount)}</Discount>
+        {discount ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
         <BtnContainer>
           <button onClick={() => setShowForm((show) => !show)}>edit</button>
-          <button onClick={() => mutate(id)}>Delete</button>
+          <button onClick={() => mutate(id)} disabled={isLoading}>
+            Delete
+          </button>
         </BtnContainer>
       </TableRow>
 
