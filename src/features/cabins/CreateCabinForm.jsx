@@ -47,7 +47,9 @@ const Error = styled.span`
 `;
 
 function CreateCabinForm() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
+
+  const { errors } = formState;
 
   // get the query client using useQueryClient
 
@@ -62,31 +64,72 @@ function CreateCabinForm() {
         queryKey: ["cabin"],
       });
       toast.success("cabin successfully added");
+      reset();
     },
     onError: (err) => toast.err(err.message),
   });
 
   function onSubmit(data) {
     mutate(data);
-    console.log(data);
+  }
+
+  function onError(erros) {
+    // console.log(erros);
   }
 
   // ------------------------------------------------------------------
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <FormRow>
         <Label htmlFor="name">Cabin name</Label>
-        <Input type="text" id="name" {...register("name")} />
+        <Input
+          type="text"
+          disabled={isLoading}
+          id="name"
+          {...register("name", {
+            required: "This field is requierd",
+          })}
+        />
+
+        {errors?.name?.message && <Error>{errors.name.message}</Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="maxCapacity">Maximum capacity</Label>
-        <Input type="number" id="maxCapacity" {...register("maxCapacity")} />
+        <Input
+          disabled={isLoading}
+          type="number"
+          id="maxCapacity"
+          {...register("maxCapacity", {
+            required: "This field is requierd",
+            min: {
+              value: 1,
+              message: "the capacity should at least be 1",
+            },
+          })}
+        />
+        {errors?.maxCapacity?.message && (
+          <Error>{errors.maxCapacity.message}</Error>
+        )}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="regularPrice">Regular price</Label>
-        <Input type="number" id="regularPrice" {...register("regularPrice")} />
+        <Input
+          type="number"
+          disabled={isLoading}
+          id="regularPrice"
+          {...register("regularPrice", {
+            required: "This field is requierd",
+            min: {
+              value: 1,
+              message: "the capacity should at least be 1",
+            },
+          })}
+        />
+        {errors?.regularPrice?.message && (
+          <Error>{errors.regularPrice.message}</Error>
+        )}
       </FormRow>
 
       <FormRow>
@@ -94,19 +137,32 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="discount"
+          disabled={isLoading}
           defaultValue={0}
-          {...register("discount")}
+          {...register("discount", {
+            required: "This field is requierd",
+            validate: (value) =>
+              value <= getValues().regularPrice ||
+              "discount should be less than regular price",
+          })}
         />
+        {errors?.discount?.message && <Error>{errors.discount.message}</Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="description">Description for website</Label>
         <Textarea
+          disabled={isLoading}
           type="number"
           id="description"
           defaultValue=""
-          {...register("description")}
+          {...register("description", {
+            required: "This field is requierd",
+          })}
         />
+        {errors?.description?.message && (
+          <Error>{errors.description.message}</Error>
+        )}
       </FormRow>
 
       <FormRow>
@@ -119,7 +175,7 @@ function CreateCabinForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button>Add cabin</Button>
+        <Button disabled={isLoading}>Add cabin</Button>
       </FormRow>
     </Form>
   );
