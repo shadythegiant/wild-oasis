@@ -22,7 +22,6 @@ export async function deleteCabin(id) {
 }
 
 export async function addCabin(newCabin, id) {
-  console.log(newCabin, id);
   const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
   // upload image and specify image url in the table
   // therefore we need to generate that path and use uniqe image name
@@ -67,6 +66,8 @@ export async function addCabin(newCabin, id) {
   }
   // upload image
   //https://unmmgfkmsibwjiuwpogt.supabase.co/storage/v1/object/public/cabin-images//cabin-001.jpg
+
+  console.log(newCabin, id);
 
   const { error: storageError } = await supabase.storage
     .from("cabin-images")
