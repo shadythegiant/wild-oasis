@@ -112,7 +112,7 @@ export default function CabinRow({ cabin }) {
           </button>
 
           {/* Duplicate  */}
-          <button onClick={handleDuplicate}>
+          <button onClick={handleDuplicate} disabled={isCreating}>
             <HiSquare2Stack />
           </button>
         </BtnContainer>
