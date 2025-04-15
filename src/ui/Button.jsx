@@ -46,6 +46,12 @@ const variations = {
       background-color: var(--color-red-800);
     }
   `,
+
+  closeModal: css`
+    background-color: transparent;
+    color: back;
+    margin-right: -1px;
+  `,
 };
 
 // reusable button
@@ -56,6 +62,7 @@ const Button = styled.button`
 
   ${(props) => variations[props.variations]}
   ${(props) => sizes[props.sizes]}
+  $((props) =>)
 `;
 
 Button.defaultProps = {

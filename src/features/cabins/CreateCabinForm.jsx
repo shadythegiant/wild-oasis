@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import useCreateCabin from "./useCreateCabin";
 import useEditCabin from "./useEditCabin";
 
+// -------------------------
 const FormRow = styled.div`
   display: grid;
   align-items: center;
@@ -124,11 +125,16 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     // console.log(erros);
   }
 
+  function handleModalClose(e) {
+    e.preventDefault();
+  }
+
   // ------------------------------------------------------------------
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)} type="modal">
       <FormRow>
         <Label htmlFor="name">Cabin name</Label>
+
         <Input
           type="text"
           disabled={isLoading}
