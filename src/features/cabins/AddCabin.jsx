@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm";
 import Modal from "../../ui/Modal";
@@ -15,7 +15,7 @@ export default function AddCabin() {
       </Button>
       {IsmodalOpen && (
         <Modal onClose={() => setIsmodalOpen(false)}>
-          <CreateCabinForm />
+          <CreateCabinForm onClose={() => setIsmodalOpen(false)} />
         </Modal>
       )}
     </>

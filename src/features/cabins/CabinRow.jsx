@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 
-import { createContext, useState } from "react";
+import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import useCreateCabin from "./useCreateCabin";
+import Modal from "../../ui/Modal";
 
 const TableRow = styled.div`
   display: grid;
@@ -50,9 +51,6 @@ const BtnContainer = styled.div`
   display: flex;
   gap: 1rem;
 `;
-
-// create context for modalState
-const modalContext = createContext();
 
 export default function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false);
@@ -121,7 +119,15 @@ export default function CabinRow({ cabin }) {
         </BtnContainer>
       </TableRow>
 
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
+      {showForm && (
+        <Modal onClose={() => setShowForm((open) => !open)}>
+          {" "}
+          <CreateCabinForm
+            cabinToEdit={cabin}
+            onClose={() => setShowForm((open) => !open)}
+          />
+        </Modal>
+      )}
     </>
   );
 }

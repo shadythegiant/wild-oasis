@@ -62,7 +62,6 @@ const Button = styled.button`
 
   ${(props) => variations[props.variations]}
   ${(props) => sizes[props.sizes]}
-  $((props) =>)
 `;
 
 Button.defaultProps = {

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 
@@ -52,7 +52,7 @@ const Button = styled.button`
 `;
 
 export default function Modal({ children, onClose }) {
-  return (
+  return createPortal(
     <Overlay>
       <StyledModal>
         <Button onClick={onClose}>
@@ -60,7 +60,7 @@ export default function Modal({ children, onClose }) {
         </Button>
         <div>{children}</div>
       </StyledModal>
-      ;
-    </Overlay>
+    </Overlay>,
+    document.body
   );
 }
