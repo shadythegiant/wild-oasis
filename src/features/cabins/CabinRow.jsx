@@ -8,6 +8,7 @@ import useCreateCabin from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 const Img = styled.img`
   display: block;
@@ -93,21 +94,36 @@ export default function CabinRow({ cabin }) {
           {/* Edit  */}
 
           <Modal>
-            <Modal.Open opens="edit">
-              <button>
-                <HiPencil />
-              </button>
-            </Modal.Open>
+            {/* Menu */}
+            <Menus.Menu>
+              <Menus.Toggle id={id}></Menus.Toggle>
+              <Menus.List id={id}>
+                <Menus.Button
+                  icon={<HiSquare2Stack />}
+                  onClick={handleDuplicate}
+                >
+                  Duplicate
+                </Menus.Button>
+
+                {/* EDit  */}
+                <Modal.Open opens="edit">
+                  <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                </Modal.Open>
+
+                {/* Delete  */}
+
+                <Modal.Open>
+                  <Menus.Button icon={<HiTrash />}>Delete </Menus.Button>
+                </Modal.Open>
+              </Menus.List>
+            </Menus.Menu>
+
             <Modal.Window name="edit">
               <CreateCabinForm cabinToEdit={cabin} />
             </Modal.Window>
 
             {/* Delete  */}
-            <Modal.Open>
-              <button>
-                <HiTrash />
-              </button>
-            </Modal.Open>
+
             <Modal.Window>
               <ConfirmDelete
                 resourceName="cabin"
@@ -116,13 +132,23 @@ export default function CabinRow({ cabin }) {
               />
             </Modal.Window>
           </Modal>
-
-          {/* Duplicate  */}
-          <button onClick={handleDuplicate} disabled={isCreating}>
-            <HiSquare2Stack />
-          </button>
         </BtnContainer>
       </Table.Row>
     </>
+  );
+}
+
+function EditModal() {
+  return (
+    <Modal>
+      <Modal.Open opens="edit">
+        <button>
+          <HiPencil />
+        </button>
+      </Modal.Open>
+      <Modal.Window name="edit">
+        <CreateCabinForm cabinToEdit={cabin} />
+      </Modal.Window>
+    </Modal>
   );
 }
