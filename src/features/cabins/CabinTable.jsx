@@ -44,6 +44,8 @@ export default function CabinTable() {
 
   // 2 - Sorting
 
+  let sortedCabins;
+
   const sortBy = searchParams.get("sortBy") || "name-ascending";
 
   const [field, direction] = sortBy.split("-");
@@ -51,9 +53,15 @@ export default function CabinTable() {
 
   console.log(modifier, field, direction);
 
-  const sortedCabins = filteredCabins.sort(
-    (a, b) => (a[field] - b[field]) * modifier
-  );
+  if (field === "name") {
+    sortedCabins = filteredCabins.sort(
+      (a, b) => a[field].localeCompare(b[field]) * modifier
+    );
+  } else {
+    sortedCabins = filteredCabins.sort(
+      (a, b) => (a[field] - b[field]) * modifier
+    );
+  }
 
   console.log(sortedCabins);
 
