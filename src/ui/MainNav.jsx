@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import {
-  HiOutlineCog,
+  HiOutlineCalendarDays,
+  HiOutlineCog6Tooth,
   HiOutlineHome,
   HiOutlineHomeModern,
   HiOutlineUsers,
 } from "react-icons/hi2";
-import { HiOutlineCalendar } from "react-icons/hi";
 
 const NavList = styled.ul`
   display: flex;
@@ -14,7 +14,7 @@ const NavList = styled.ul`
   gap: 0.8rem;
 `;
 
-const Link = styled(NavLink)`
+const StyledNavLink = styled(NavLink)`
   &:link,
   &:visited {
     display: flex;
@@ -53,39 +53,43 @@ const Link = styled(NavLink)`
   }
 `;
 
-export default function MainNav() {
+function MainNav() {
   return (
     <nav>
       <NavList>
         <li>
-          <Link to="/dashboard">
-            <HiOutlineHome /> <span>Home</span>
-          </Link>
+          <StyledNavLink to="/dashboard">
+            <HiOutlineHome />
+            <span>Home</span>
+          </StyledNavLink>
         </li>
         <li>
-          <Link to="/bookings">
-            <HiOutlineCalendar /> <span>Booking</span>{" "}
-          </Link>
+          <StyledNavLink to="/bookings">
+            <HiOutlineCalendarDays />
+            <span>Bookings</span>
+          </StyledNavLink>
         </li>
-
         <li>
-          <Link to="/cabins">
-            <HiOutlineHomeModern /> <span>Cabins</span>{" "}
-          </Link>
+          <StyledNavLink to="/cabins">
+            <HiOutlineHomeModern />
+            <span>Cabins</span>
+          </StyledNavLink>
         </li>
-
         <li>
-          <Link to="/settings">
-            <HiOutlineCog /> <span>Settings</span>{" "}
-          </Link>
+          <StyledNavLink to="/users">
+            <HiOutlineUsers />
+            <span>Users</span>
+          </StyledNavLink>
         </li>
-
         <li>
-          <Link to="/users">
-            <HiOutlineUsers /> <span>Users</span>{" "}
-          </Link>
+          <StyledNavLink to="/settings">
+            <HiOutlineCog6Tooth />
+            <span>Settings</span>
+          </StyledNavLink>
         </li>
       </NavList>
     </nav>
   );
 }
+
+export default MainNav;

@@ -46,27 +46,20 @@ const variations = {
       background-color: var(--color-red-800);
     }
   `,
-
-  closeModal: css`
-    background-color: transparent;
-    color: back;
-    margin-right: -1px;
-  `,
 };
 
-// reusable button
 const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
 
-  ${(props) => variations[props.variations]}
-  ${(props) => sizes[props.sizes]}
+  ${(props) => sizes[props.size]}
+  ${(props) => variations[props.variation]}
 `;
 
 Button.defaultProps = {
-  variations: "primary",
-  sizes: "medium",
+  variation: "primary",
+  size: "medium",
 };
 
 export default Button;
